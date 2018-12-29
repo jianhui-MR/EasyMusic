@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white_background</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/themeColor</item>
+    </style>
+    <style name="AppTheme.Main" parent="AppTheme" />
+    <style name="showPopupAnimation" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/popupwin_out</item>
+        <item name="android:windowEnterAnimation">@anim/popupwin_in</item>
+    </style>
+    <!--闪屏-->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_layout</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+    <style name="TransparentTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white_background</item>
+        <item name="colorPrimaryDark">@color/TransparentColor</item>
+        <item name="colorAccent">@color/themeColor</item>
+    </style>
+</resources>

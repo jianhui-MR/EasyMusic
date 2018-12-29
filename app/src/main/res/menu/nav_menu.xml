@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_search_localMusic"
+            android:icon="@drawable/search_localmusic"
+            android:title="扫面本地音乐" />
+        <item
+            android:icon="@drawable/timer"
+            android:id="@+id/nav_search_setTimerTask"
+            android:title="@string/setTimerTask"/>
+    </group>
+
+</menu>

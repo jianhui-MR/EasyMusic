@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:padding="10dp"
+    android:background="@color/themeColor"
+    android:layout_height="180dp">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/head_pohto"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/cat"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

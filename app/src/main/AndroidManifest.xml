@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.bobby.musiczone">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="org.litepal.LitePalApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/music_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/music_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".Splash_screenActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="Main" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.PlayerService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".Activity.PlayMusicAvtivity"
+            android:launchMode="singleInstance" />
+        <activity android:name=".Activity.SearchMusicActivity">
+            <intent-filter>
+                <action android:name="SearchMusic" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activity.BaseActivity" />
+        <activity android:name=".Activity.RankActivity">
+            <intent-filter>
+                <action android:name="RankMusic" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".BroadCast.DownloadRecevier"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="InnerclassSeparator" />
+        <receiver
+            android:name=".BroadCast.NotificationRecevier"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="InnerclassSeparator" />
+    </application>
+
+</manifest>
