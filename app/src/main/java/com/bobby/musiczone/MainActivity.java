@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -16,16 +17,15 @@ import android.widget.Toast;
 
 import com.bobby.musiczone.Activity.BaseActivity;
 import com.bobby.musiczone.Activity.SearchMusicActivity;
+import com.bobby.musiczone.fragment.DiscoveryFragment;
+import com.bobby.musiczone.fragment.RecommendMvFragment;
 import com.bobby.musiczone.service.PlayerService;
 import com.bobby.musiczone.util.ScanMusicUtil;
 import com.bobby.musiczone.fragment.RankMusicFragment;
 import com.bobby.musiczone.fragment.LocalMusicFragment;
 import com.bobby.musiczone.util.TimerTask.TimerTakUtil;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
-
-
+import com.flyco.tablayout.SlidingTabLayout;
+import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -42,11 +42,12 @@ public class MainActivity extends BaseActivity {
     public NavigationView navigationView;
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
-    @BindView(R.id.viewpagertab)
-    public SmartTabLayout viewPagerTab;
+    @BindView(R.id.slidingTabLayout)
+    public SlidingTabLayout slidingTabLayout;
 
     private Unbinder unbinder;
-
+    private ArrayList<Fragment> fragmentList;
+    private String[] titles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,15 +71,16 @@ public class MainActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         toolbar.setNavigationIcon(R.drawable.actionbar_menu);
-        FragmentPagerItemAdapter adapter=new FragmentPagerItemAdapter(getSupportFragmentManager(),
-                FragmentPagerItems.with(this)
-                .add(R.string.myMusic,LocalMusicFragment.class)
-                .add(R.string.recommand,RankMusicFragment.class)
-                .add(R.string.recommandMv,RankMusicFragment.class)
-                .create()
-        );
-        viewPager.setAdapter(adapter);
-        viewPagerTab.setViewPager(viewPager);
+
+        titles= new String[]{this.getString(R.string.myMusic),
+                this.getString(R.string.discovery),this.getString(R.string.rank),this.getString(R.string.recommendMv)};
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new LocalMusicFragment());
+        fragmentList.add(new DiscoveryFragment());
+        fragmentList.add(new RankMusicFragment());
+        fragmentList.add(new RecommendMvFragment());
+        slidingTabLayout.setViewPager(viewPager,titles,this,fragmentList);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
