@@ -1,6 +1,7 @@
 package com.bobby.musiczone.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,13 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import com.bobby.musiczone.Activity.SingerSongActivity;
 import com.bobby.musiczone.R;
 import com.bobby.musiczone.adapter.ArtistsAdapter;
+import com.bobby.musiczone.adapter.OnItemClickListener;
 import com.bobby.musiczone.adapter.RecommendMusicListAdapter;
 import com.bobby.musiczone.adapter.RecommendNewSongAdapter;
 import com.bobby.musiczone.entry.Artist;
@@ -56,6 +57,7 @@ public class DiscoveryFragment extends Fragment {
     private final String TAG="DiscoveryFragment";
     private View view;
     private Unbinder unbinder;
+    private Intent intent;
 
     private ArtistsAdapter artistsAdapter;
     private RecommendMusicListAdapter recommendMusicListAdapter;
@@ -70,6 +72,12 @@ public class DiscoveryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.discovery,container,false);
         unbinder=ButterKnife.bind(this,view);
+        initArtists();
+        loadArtists();
+        initRecommendMusicList();
+        loadRecommendMusicList();
+        initRecommendNewMusic();
+        loadRecommendNewMusic();
         return view;
     }
 
@@ -82,12 +90,6 @@ public class DiscoveryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        initArtists();
-        loadArtists();
-        initRecommendMusicList();
-        loadRecommendMusicList();
-        initRecommendNewMusic();
-        loadRecommendNewMusic();
     }
 
     @Override
@@ -128,8 +130,20 @@ public class DiscoveryFragment extends Fragment {
         artistList=new ArrayList<>();
         artistsAdapter=new ArtistsAdapter(artistList);
         artistRecyclerView.setAdapter(artistsAdapter);
+        artistRecyclerView.setNestedScrollingEnabled(false);
         GridLayoutManager layoutManager=new GridLayoutManager(getContext(),15);
         artistRecyclerView.setLayoutManager(layoutManager);
+
+        artistsAdapter.setItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                intent=new Intent(getContext(),SingerSongActivity.class);
+                intent.putExtra("picUrl",artistList.get(position).getImgUrl());
+                intent.putExtra("singerId",artistList.get(position).getId());
+                intent.putExtra("singer",artistList.get(position).getName());
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -173,6 +187,7 @@ public class DiscoveryFragment extends Fragment {
         recommendMusicLists=new ArrayList<>();
         recommendMusicListAdapter=new RecommendMusicListAdapter(recommendMusicLists);
         recommendMusicListRecycler.setAdapter(recommendMusicListAdapter);
+        recommendMusicListRecycler.setNestedScrollingEnabled(false);
         GridLayoutManager layoutManager=new GridLayoutManager(getContext(),3);
         recommendMusicListRecycler.setLayoutManager(layoutManager);
     }
@@ -216,6 +231,7 @@ public class DiscoveryFragment extends Fragment {
         recommendNewSongList=new ArrayList<>();
         recommendNewSongAdapter=new RecommendNewSongAdapter(recommendNewSongList);
         recommendNewMusicRecycler.setAdapter(recommendNewSongAdapter);
+        recommendNewMusicRecycler.setNestedScrollingEnabled(false);
         GridLayoutManager layoutManager=new GridLayoutManager(getContext(),3);
         recommendNewMusicRecycler.setLayoutManager(layoutManager);
     }

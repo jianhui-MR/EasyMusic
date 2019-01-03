@@ -46,7 +46,7 @@ public class LocalMusicFragment extends Fragment{
     @BindView(R.id.empty_Textview)
     public TextView empty_tv;
 
-    public static View view;
+    public  View view;
     private LocalMusicAdapter adapter;
     private PlayerService service;
     private Unbinder unbinder;

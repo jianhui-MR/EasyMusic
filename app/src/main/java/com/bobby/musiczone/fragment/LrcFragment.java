@@ -170,7 +170,7 @@ public class LrcFragment extends Fragment implements Runnable {
     {
         if (service.musicType==service.ONLINE)
         {
-            HttpUtil.sendOkHttpRequest(service.onlineMusicList.get(service.position).lrcUrl, new Callback() {
+            HttpUtil.sendOkHttpRequest(service.onlineMusicList.get(service.position).getLrcUrl(), new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     lrcView.setLrcList(null);

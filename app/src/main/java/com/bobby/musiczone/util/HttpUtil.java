@@ -14,18 +14,18 @@ import okhttp3.RequestBody;
 
 public class HttpUtil {
     /**
-     * http异步请求(不带参数)
+     * http异步GET请求(不带参数)
      * @param address
      * @param callback
      */
     public static void sendOkHttpRequest(String address,okhttp3.Callback callback){
-        OkHttpClient client=new OkHttpClient();
         Request request=new Request.Builder().url(address).build();
+        OkHttpClient client=new OkHttpClient();
         client.newCall(request).enqueue(callback);
     }
 
     /**
-     * http异步请求(带参数)
+     * http异步POST请求(带参数)
      * @param address
      * @param requestBody
      * @param callback
@@ -40,7 +40,7 @@ public class HttpUtil {
     }
 
     /**
-     * htttp同步请求
+     * http同步请求
      * @param address
      * @return
      * @throws IOException

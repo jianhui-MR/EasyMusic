@@ -2,11 +2,17 @@
     <string name="app_name">EasyMusic</string>
     <string name="collect">收藏</string>
     <string name="myMusic">我的音乐</string>
-    <string name="recommand">发现</string>
-    <string name="recommandMv">推荐MV</string>
+    <string name="discovery">发现</string>
+    <string name="rank">歌曲排行榜</string>
+    <string name="recommendMv">推荐MV</string>
     <string name="search">搜索</string>
+    <string name="hotSinger">热门歌手</string>
+    <string name="recommendMusicList">推荐歌单</string>
+    <string name="recommendNewSongs">推荐新音乐</string>
     <string name="emptyText">sorry,本地文件没有音乐或尚未进行扫描</string>
     <string name="addLocalSongs">点击添加本地文件</string>
     <string name="search_tips">请输入要查找的歌曲、歌手</string>
     <string name="setTimerTask">设置定时关闭</string>
+    <string name="title_activity_singer">SingerActivity</string>
+    <string name="title_activity_recommend_song_list">RecommendSongListActivity</string>
 </resources>

@@ -78,7 +78,6 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
     public int Mode=0;
     public Intent intent;
     private Toast toast;
-    private View view;
     private playerRecevier playerRecevier;
     private LocalMusic localMusic;
     private OnlineMusic onlineMusic;
@@ -96,8 +95,7 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view= LayoutInflater.from(this).inflate(R.layout.playmusic,null,false);
-        setContentView(view);
+        setContentView(R.layout.playmusic);
         unbinder=ButterKnife.bind(this);
         service=PlayerService.getService();
         initWidget();
@@ -122,7 +120,7 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(playerRecevier);
-//        unbinder.unbind();
+        unbinder.unbind();
     }
     /* 生命周期 */
 
@@ -159,12 +157,12 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
                     else if (service.musicType==ONLINE){
                         onlineMusic= service.onlineMusicList.get(service.position);
                         Glide.with(PlayMusicAvtivity.this)
-                                .load(onlineMusic.picUrl)
+                                .load(onlineMusic.getPicUrl())
                                 .override(250,250)
                                 .placeholder(R.drawable.background)
                                 .bitmapTransform(new BlurTransformation(PlayMusicAvtivity.this,25,4))
                                 .into(play_background);
-                        toolbar.setTitle(onlineMusic.name);
+                        toolbar.setTitle(onlineMusic.getName());
                     }
                     break;
 
@@ -215,7 +213,6 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
         MyFragmentPagerAdapter adapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),fragmentList);
         viewPager.setAdapter(adapter);
 
-
         //判断当前音乐是否在播放，进行播放按钮的选择
         if (service.playerEngine.isPlaying()) {
             play.setImageResource(R.drawable.pause);
@@ -238,13 +235,13 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
         else if (service.musicType==service.ONLINE)
         {
             Glide.with(PlayMusicAvtivity.this)
-                    .load(service.onlineMusicList.get(service.position).picUrl)
+                    .load(service.onlineMusicList.get(service.position).getPicUrl())
                     .override(250,250)
                     .placeholder(R.drawable.background)
                     .crossFade()
                     .bitmapTransform(new BlurTransformation(PlayMusicAvtivity.this,25,4))
                     .into(play_background);
-            toolbar.setTitle(service.onlineMusicList.get(service.position).name);
+            toolbar.setTitle(service.onlineMusicList.get(service.position).getName());
         }
 
         //判断播放模式，改变播放模式图标
@@ -326,7 +323,7 @@ public class PlayMusicAvtivity extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.playingmuisc_list:
-                BottomContainerFragment.popupWindow.showAsDropDown(view, Gravity.BOTTOM,0,1000);
+                BottomContainerFragment.popupWindow.showAsDropDown(getWindow().getDecorView(), Gravity.BOTTOM,0,1000);
                 break;
         }
     }

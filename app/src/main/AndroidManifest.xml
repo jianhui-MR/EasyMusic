@@ -66,6 +66,15 @@
             android:enabled="true"
             android:exported="true"
             tools:ignore="InnerclassSeparator" />
+
+        <activity
+            android:name=".Activity.SingerSongActivity"
+            android:label="@string/title_activity_singer"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.RecommendSongListActivity"
+            android:label="@string/title_activity_recommend_song_list"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

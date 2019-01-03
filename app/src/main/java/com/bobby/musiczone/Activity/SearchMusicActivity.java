@@ -6,10 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.bobby.musiczone.Enum.LoadStateEnum;
@@ -20,18 +19,14 @@ import com.bobby.musiczone.R;
 import com.bobby.musiczone.adapter.OnlineMusicAdapter;
 import com.bobby.musiczone.service.PlayerService;
 import com.bobby.musiczone.util.HttpUtil;
-import com.bobby.musiczone.util.PoPupwindowUtil;
+import com.bobby.musiczone.util.MorePoPupUtil;
+import com.bobby.musiczone.util.MusicInfoUtil;
 import com.bobby.musiczone.util.ViewUtils;
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -50,15 +45,11 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
     public   SearchView searchView;
 
     private static final String SEARCH_URL = "http://106.13.36.192:3000/search";
-    private static final String PLAY_URL="http://music.163.com/song/media/outer/url?id=";
-    private static final String INFO_URL="http://music.163.com/api/song/detail/?id=";
-    private static final String LRC_URL="http://music.163.com/api/song/lyric?id=";
 
 
     public  List<OnlineMusic> onlineMusicList;
     public OnlineMusicAdapter adapter;
     private String query;
-    public static View view;
     private int lastVisibleItem;
     private int  offset;
     private PlayerService service;
@@ -68,8 +59,7 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view= LayoutInflater.from(this).inflate(R.layout.search_music,null,false);
-        setContentView(view);
+        setContentView(R.layout.search_music);
         unbinder=ButterKnife.bind(this);
         service=PlayerService.getService();
         initView();
@@ -112,8 +102,8 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
                     Intent intent=new Intent(service.PLAY_ONLINEMUSIC_ACTION);
                     sendBroadcast(intent);
                 }
-                else if (service.onlineMusicList.get(service.position).id!=
-                        onlineMusicList.get(position).id)
+                else if (service.onlineMusicList.get(service.position).getId()!=
+                        onlineMusicList.get(position).getId())
                 {
                     service.onlineMusicList=onlineMusicList;
                     service.position=position;
@@ -125,9 +115,9 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
         adapter.setClickMoreListener(new OnClickMoreListener() {
             @Override
             public void onMoreClick(int posiiton) {
-                PoPupwindowUtil poPupwindowUtil=new PoPupwindowUtil(SearchMusicActivity.this);
-                poPupwindowUtil.setMorePopUpWindow();
-                poPupwindowUtil.showPopupwindow(onlineMusicList.get(posiiton),view);
+                MorePoPupUtil morePoPupUtil=new MorePoPupUtil(SearchMusicActivity.this);
+                morePoPupUtil.setMorePopUp();
+                morePoPupUtil.showMorePopUp(onlineMusicList.get(posiiton));
             }
         });
         onlineMusic_recyclerview.setAdapter(adapter);
@@ -174,7 +164,6 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
     @Override
     public boolean onQueryTextSubmit(String query) {
         ViewUtils.changeViewState(onlineMusic_recyclerview, llLoading, llLoadFail, LoadStateEnum.LOADING);
-        searchView.clearFocus();
         this.query=query;
         reSearchOnlineMusic();
         onlineMusicList.clear();
@@ -195,25 +184,23 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
         {
             offset++;
             formBody=new FormBody.Builder()
-                    .add("limit","15")
-                    .add("offset",String.valueOf((offset-1)*15))
                     .add("keywords",query)
+                    .add("limit","15")
+                    .add("offset", String.valueOf((offset-1)*15))
                     .build();
-            new Thread(new Runnable() {
+
+            Log.e(TAG, "searchOnlineMusic: "+String.valueOf((offset-1)*15));
+
+            HttpUtil.sendOkHttpRequest(SEARCH_URL,formBody,new Callback() {
                 @Override
-                public void run() {
-                    HttpUtil.sendOkHttpRequest(SEARCH_URL,formBody,new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            ViewUtils.changeViewState(onlineMusic_recyclerview, llLoading, llLoadFail, LoadStateEnum.LOAD_FAIL);
-                        }
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            parseJSONWithJSONObject(response.body().string());
-                        }
-                    });
+                public void onFailure(Call call, IOException e) {
+                    ViewUtils.changeViewState(onlineMusic_recyclerview, llLoading, llLoadFail, LoadStateEnum.LOAD_FAIL);
                 }
-            }).start();
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    loadSearchResult(response.body().string());
+                }
+            });
         }
     }
 
@@ -222,16 +209,22 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
         searchOnlineMusic();
     }
 
-    private void parseJSONWithJSONObject(String JsonData) {
+
+    private void loadSearchResult(final String JsonData) {
         try {
             JSONObject jsonObject = new JSONObject(JsonData);
             JSONArray jsonArray = jsonObject.getJSONObject("result").getJSONArray("songs");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                OnlineMusic onlineMusic=new Gson().fromJson(object.toString(),OnlineMusic.class);
-                onlineMusic.audio=PLAY_URL+onlineMusic.id+".mp3";
-                onlineMusic.picUrl=parseJSON(INFO_URL+onlineMusic.id+"&ids=%5B"+onlineMusic.id+"%5D");
-                onlineMusic.lrcUrl=LRC_URL+onlineMusic.id+"&lv=-1&kv=-1";
+                OnlineMusic onlineMusic=new OnlineMusic();
+                onlineMusic.setId(object.getInt("id"));
+                MusicInfoUtil musicInfoUtil=new MusicInfoUtil(onlineMusic.getId());
+                onlineMusic.setName(musicInfoUtil.getMusicName());
+                onlineMusic.setAlbum(musicInfoUtil.getAlbumName());
+                onlineMusic.setPicUrl(musicInfoUtil.getPicUrl());
+                onlineMusic.setSinger(musicInfoUtil.getSinger());
+                onlineMusic.setLrcUrl(MusicInfoUtil.getLrcUrl(onlineMusic.getId()));
+                onlineMusic.setAudio(MusicInfoUtil.getAudioUrl(onlineMusic.getId()));
                 onlineMusicList.add(onlineMusic);
             }
             runOnUiThread(new Runnable() {
@@ -239,6 +232,8 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
                 public void run() {
                     ViewUtils.changeViewState(onlineMusic_recyclerview, llLoading, llLoadFail, LoadStateEnum.LOAD_SUCCESS);
                     adapter.notifyDataSetChanged();
+
+                    Log.e(TAG, "run: "+JsonData );
                 }
             });
         } catch (Exception e) {
@@ -250,9 +245,5 @@ public class SearchMusicActivity extends BaseActivity implements SearchView.OnQu
             });
             e.printStackTrace();
         }
-    }
-    public String parseJSON(String URL) throws IOException, JSONException {
-        return new JSONObject(HttpUtil.sendOkHttpRequest(URL)).getJSONArray("songs")
-                .getJSONObject(0).getJSONObject("album").getString("picUrl");
     }
 }

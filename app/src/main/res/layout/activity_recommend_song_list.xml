@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.SingerSongActivity">
-
+    tools:context=".Activity.RecommendSongListActivity">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -43,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/singerMusic_recyclerView"
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <include
@@ -59,9 +58,7 @@
                 layout="@layout/include_load_fail"
                 android:visibility="gone" />
         </FrameLayout>
-
     </android.support.v4.widget.NestedScrollView>
-
 
     <fragment
         android:layout_gravity="end|bottom"
@@ -69,5 +66,4 @@
         android:name="com.bobby.musiczone.fragment.BottomContainerFragment"
         android:layout_width="match_parent"
         android:layout_height="52dp" />
-
 </android.support.design.widget.CoordinatorLayout>

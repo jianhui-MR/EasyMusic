@@ -163,11 +163,11 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
                    }
                    else if (service.musicType==service.ONLINE){
                        onlineMusic= service.onlineMusicList.get(service.position);
-                       song_name.setText(onlineMusic.name);
-                       singer_name.setText(onlineMusic.artistsList.get(0).singer);
+                       song_name.setText(onlineMusic.getName());
+                       singer_name.setText(onlineMusic.getSinger());
                        play_btn.setImageResource(R.drawable.pause_btn);
                        Glide.with(getContext())
-                               .load(onlineMusic.picUrl)
+                               .load(onlineMusic.getPicUrl())
                                .placeholder(R.drawable.albumart)
                                .error(R.drawable.albumart)
                                .into(album_pic);
@@ -214,10 +214,10 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
         }
         else if (service.musicType==service.ONLINE)
         {
-            song_name.setText(service.onlineMusicList.get(service.position).name);
-            singer_name.setText(service.onlineMusicList.get(service.position).artistsList.get(0).singer);
+            song_name.setText(service.onlineMusicList.get(service.position).getName());
+            singer_name.setText(service.onlineMusicList.get(service.position).getSinger());
             Glide.with(getContext())
-                    .load(service.onlineMusicList.get(service.position).picUrl)
+                    .load(service.onlineMusicList.get(service.position).getPicUrl())
                     .into(album_pic);
         }
     }
@@ -281,10 +281,10 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
                 album_pic.setImageResource(R.drawable.placeholder_disk_210);
         }
         else if (service.musicType==service.ONLINE){
-            song_name.setText(service.onlineMusicList.get(service.position).name);
-            singer_name.setText(service.onlineMusicList.get(service.position).artistsList.get(0).singer);
+            song_name.setText(service.onlineMusicList.get(service.position).getName());
+            singer_name.setText(service.onlineMusicList.get(service.position).getSinger());
             Glide.with(getContext())
-                    .load(service.onlineMusicList.get(service.position).picUrl)
+                    .load(service.onlineMusicList.get(service.position).getPicUrl())
                     .placeholder(R.drawable.albumart)
                     .error(R.drawable.albumart)
                     .into(album_pic);
@@ -305,18 +305,7 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
                 startActivity(intent);
                 break;
             case R.id.playlist_btn:
-                switch (getActivity().getIntent().getAction())
-                {
-                    case Splash_screenActivity.MainActivity_ACTION:
-                        popupWindow.showAsDropDown(LocalMusicFragment.view,Gravity.BOTTOM,0,1000);
-                        break;
-                    case RankMusicFragment.RankActivity_Action:
-                        popupWindow.showAsDropDown(RankActivity.view, Gravity.BOTTOM,0,1000);
-                        break;
-                    case MainActivity.SearchMusicActivity_ACTION:
-                        popupWindow.showAsDropDown(SearchMusicActivity.view, Gravity.BOTTOM,0,1000);
-                        break;
-                }
+                popupWindow.showAsDropDown(getActivity().getWindow().getDecorView(),Gravity.BOTTOM,0,1000);
                 WindowManager.LayoutParams lp=getActivity().getWindow().getAttributes();
                 lp.alpha=0.35f;
                 getActivity().getWindow().setAttributes(lp);

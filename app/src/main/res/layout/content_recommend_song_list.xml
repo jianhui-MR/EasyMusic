@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.SingerActivity"
-    tools:showIn="@layout/activity_singer"
-    tools:ignore="GradleDependency">
-
+    tools:context=".Activity.RecommendSongListActivity"
+    tools:showIn="@layout/activity_recommend_song_list">
 
 </android.support.constraint.ConstraintLayout>

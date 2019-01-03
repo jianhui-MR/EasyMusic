@@ -34,6 +34,12 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
         }
     }
 
+
+    private OnItemClickListener mItemClickListener;
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
+        mItemClickListener = itemClickListener;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (context==null) {
@@ -41,6 +47,12 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
         }
         View view= LayoutInflater.from(context).inflate(R.layout.artist_recyclerview,parent,false);
         ViewHolder holder=new ViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mItemClickListener.onItemClick((Integer)v.getTag());
+            }
+        });
         return holder;
     }
 
@@ -51,6 +63,8 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
                 .load(mArtistList.get(position).getImgUrl())
                 .dontAnimate()
                 .into(holder.circleImageView);
+
+        holder.itemView.setTag(position);
     }
 
     @Override

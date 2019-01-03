@@ -19,12 +19,11 @@ import com.bobby.musiczone.adapter.OnItemClickListener;
 import com.bobby.musiczone.adapter.RankMusicAdapter;
 import com.bobby.musiczone.fragment.RankMusicFragment;
 import com.bobby.musiczone.entry.OnlineMusic;
-import com.bobby.musiczone.entry.RankMusic;
 import com.bobby.musiczone.service.PlayerService;
 import com.bobby.musiczone.util.HttpUtil;
-import com.bobby.musiczone.util.PoPupwindowUtil;
+import com.bobby.musiczone.util.MorePoPupUtil;
+import com.bobby.musiczone.util.MusicInfoUtil;
 import com.bobby.musiczone.util.ViewUtils;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,20 +53,17 @@ public class RankActivity extends BaseActivity{
     public ImageView imageView;
 
     private String Music_URL;
-    public final List<OnlineMusic> rankMusicList=new ArrayList<>();
+    public final List<OnlineMusic> onlineMusicList=new ArrayList<>();
     private RankMusicAdapter adapter;
-    private String Lrc_URL= "http://music.163.com/api/song/lyric?id=";
-    private String Audio_URL="http://music.163.com/song/media/outer/url?id=";
-    public static View view;
     private PlayerService service;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view= LayoutInflater.from(this).inflate(R.layout.rankmusic_layout,null,false);
-        setContentView(view);
+        setContentView(R.layout.rankmusic_layout);
         ButterKnife.bind(this);
         service=PlayerService.getService();
         setToolbar();
+        initRankMusicRecycler();
         LoadRanKMusic(Music_URL);
     }
 
@@ -119,12 +115,38 @@ public class RankActivity extends BaseActivity{
         }
     }
 
-    private void LoadRanKMusic(String URL)
-    {
-        ViewUtils.changeViewState(rankMusic_recyclerView, llLoading, llLoadFail, LoadStateEnum.LOADING);
+    private void initRankMusicRecycler(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         rankMusic_recyclerView.setLayoutManager(linearLayoutManager);
         rankMusic_recyclerView.setNestedScrollingEnabled(false);
+        adapter=new RankMusicAdapter(onlineMusicList);
+        adapter.setItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (service.position!=position)
+                {
+                    service.position=position;
+                    service.onlineMusicList=onlineMusicList;
+                    Intent intent=new Intent(service.PLAY_ONLINEMUSIC_ACTION);
+                    sendBroadcast(intent);
+                }
+            }
+        });
+        adapter.setClickMoreListener(new OnClickMoreListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onMoreClick(int position) {
+                MorePoPupUtil morePoPup=new MorePoPupUtil(RankActivity.this);
+                morePoPup.setMorePopUp();
+                morePoPup.showMorePopUp(onlineMusicList.get(position));
+            }
+        });
+        rankMusic_recyclerView.setAdapter(adapter);
+    }
+
+    private void LoadRanKMusic(String URL)
+    {
+        ViewUtils.changeViewState(rankMusic_recyclerView, llLoading, llLoadFail, LoadStateEnum.LOADING);
         HttpUtil.sendOkHttpRequest(URL, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -139,44 +161,21 @@ public class RankActivity extends BaseActivity{
                     for (int i=0;i<jsonArray.length();i++)
                     {
                         JSONObject object =jsonArray.getJSONObject(i);
-                        RankMusic rankMusic=new Gson().fromJson(object.toString(),RankMusic.class);
                         OnlineMusic onlineMusic=new OnlineMusic();
-                        onlineMusic.id=rankMusic.id;
-                        onlineMusic.name=rankMusic.name;
-                        onlineMusic.album=new OnlineMusic.album();
-                        onlineMusic.album.albumname=rankMusic.album.albumName;
-                        onlineMusic.picUrl=rankMusic.album.picUrl;
-                        onlineMusic.artistsList=rankMusic.artistList;
-                        onlineMusic.lrcUrl=Lrc_URL+rankMusic.id+"&lv=-1&kv=-1";
-                        onlineMusic.audio=Audio_URL+rankMusic.id+".mp3";
-                        rankMusicList.add(onlineMusic);
+                        onlineMusic.setId(object.getInt("id"));
+                        MusicInfoUtil musicInfoUtil=new MusicInfoUtil(onlineMusic.getId());
+                        onlineMusic.setName(musicInfoUtil.getMusicName());
+                        onlineMusic.setAlbum(musicInfoUtil.getAlbumName());
+                        onlineMusic.setPicUrl(musicInfoUtil.getPicUrl());
+                        onlineMusic.setSinger(musicInfoUtil.getSinger());
+                        onlineMusic.setLrcUrl(MusicInfoUtil.getLrcUrl(onlineMusic.getId()));
+                        onlineMusic.setAudio(MusicInfoUtil.getAudioUrl(onlineMusic.getId()));
+                        onlineMusicList.add(onlineMusic);
                     }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            adapter=new RankMusicAdapter(rankMusicList);
-                            adapter.setItemClickListener(new OnItemClickListener() {
-                                @Override
-                                public void onItemClick(int position) {
-                                    if (service.position!=position)
-                                    {
-                                        service.position=position;
-                                        service.onlineMusicList=rankMusicList;
-                                        Intent intent=new Intent(service.PLAY_ONLINEMUSIC_ACTION);
-                                        sendBroadcast(intent);
-                                    }
-                                }
-                            });
-                            adapter.setClickMoreListener(new OnClickMoreListener() {
-                                @SuppressLint("NewApi")
-                                @Override
-                                public void onMoreClick(int position) {
-                                    PoPupwindowUtil poPupwindowUtil=new PoPupwindowUtil(RankActivity.this);
-                                    poPupwindowUtil.setMorePopUpWindow();
-                                    poPupwindowUtil.showPopupwindow(rankMusicList.get(position),view);
-                                }
-                            });
-                            rankMusic_recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                             ViewUtils.changeViewState(rankMusic_recyclerView, llLoading, llLoadFail, LoadStateEnum.LOAD_SUCCESS);
                         }
                     });

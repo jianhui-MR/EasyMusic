@@ -104,7 +104,7 @@ public class MusicPicFragment extends Fragment {
                     else if (service.musicType==ONLINE){
                         if (album!=null){
                             Glide.with(getActivity())
-                                    .load(service.onlineMusicList.get(service.position).picUrl)
+                                    .load(service.onlineMusicList.get(service.position).getPicUrl())
                                     .placeholder(R.drawable.albumart)
                                     .dontAnimate()
                                     .thumbnail( 0.5f )
@@ -139,7 +139,7 @@ public class MusicPicFragment extends Fragment {
                 break;
             case ONLINE:
                 Picasso.with(getContext())
-                        .load(service.onlineMusicList.get(service.position).picUrl)
+                        .load(service.onlineMusicList.get(service.position).getPicUrl())
                         .placeholder(R.drawable.albumart)
                         .into(album);
                 break;

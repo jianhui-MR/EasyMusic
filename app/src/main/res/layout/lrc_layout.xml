@@ -10,8 +10,7 @@
             <com.bobby.musiczone.widget.LrcView
                 android:id="@+id/lrc_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
+                android:layout_height="wrap_content" />
     </ScrollView>
 
 </RelativeLayout>

@@ -23,7 +23,11 @@ import com.bobby.musiczone.entry.OnlineMusic;
 
 import java.io.File;
 
-public class PoPupwindowUtil implements View.OnClickListener {
+
+/**
+ * 点击歌曲更多按钮从这里设置视图及点击事件
+ */
+public class MorePoPupUtil implements View.OnClickListener {
     private PopupWindow popupWindow;
     private TextView Music_name;
     private TextView Singer;
@@ -31,11 +35,36 @@ public class PoPupwindowUtil implements View.OnClickListener {
     private LinearLayout Download;
     private Activity mactivity;
     private OnlineMusic onlineMusic;
-    public PoPupwindowUtil(Activity activity)
+
+    public MorePoPupUtil(Activity activity)
     {
         mactivity=activity;
     }
-    public void setMorePopUpWindow()
+
+    /**
+     * 下载音乐
+     * @param downladUrl
+     * @param name
+     */
+    private void downloadMusic(String downladUrl,String name)
+    {
+        DownloadManager.Request request=new DownloadManager.Request(Uri.parse(downladUrl));
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setTitle(name);
+        request.setDescription("正在下载");
+        File myFile=new File(Environment.getExternalStorageDirectory().getPath()+"/MusicZone");
+        if (!myFile.exists())
+            myFile.mkdir();
+        File saveFile=new File(myFile,name);
+        request.setDestinationUri(Uri.fromFile(saveFile));
+        DownloadManager manager = (DownloadManager)mactivity.getSystemService(Context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
+    }
+
+    /**
+     * 设置点击更多后弹出来的popup
+     */
+    public void setMorePopUp()
     {
         View moreView= LayoutInflater.from(mactivity).inflate(R.layout.more_popupwindow,null,false);
         popupWindow=new PopupWindow(moreView,1000,
@@ -56,33 +85,25 @@ public class PoPupwindowUtil implements View.OnClickListener {
         Download=moreView.findViewById(R.id.download);
         Download.setOnClickListener(this);
     }
-    private void downloadMusic(String downladUrl,String name)
-    {
-        DownloadManager.Request request=new DownloadManager.Request(Uri.parse(downladUrl));
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setTitle(name);
-        request.setDescription("正在下载");
-        File myFile=new File(Environment.getExternalStorageDirectory().getPath()+"/MusicZone");
-        if (!myFile.exists())
-            myFile.mkdir();
-        File saveFile=new File(myFile,name);
-        request.setDestinationUri(Uri.fromFile(saveFile));
-        DownloadManager manager = (DownloadManager)mactivity.getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-    }
+
+    /**
+     * 显示popup
+     * @param monlineMusic
+     */
     @SuppressLint("SetTextI18n")
-    public void showPopupwindow(OnlineMusic monlineMusic, View view)
+    public void showMorePopUp(OnlineMusic monlineMusic)
     {
         onlineMusic=monlineMusic;
-        Music_name.setText("歌曲:"+onlineMusic.name);
-        Album.setText("专辑:"+onlineMusic.album.albumname);
-        Singer.setText("歌手:"+onlineMusic.artistsList.get(0).singer);
-        popupWindow.showAtLocation(view,Gravity.CENTER,RecyclerView.LayoutParams.WRAP_CONTENT
+        Music_name.setText("歌曲:"+onlineMusic.getName());
+        Album.setText("专辑:"+onlineMusic.getAlbum());
+        Singer.setText("歌手:"+onlineMusic.getSinger());
+        popupWindow.showAtLocation(mactivity.getWindow().getDecorView(),Gravity.CENTER,RecyclerView.LayoutParams.WRAP_CONTENT
                 , RecyclerView.LayoutParams.WRAP_CONTENT);
         WindowManager.LayoutParams lp=mactivity.getWindow().getAttributes();
         lp.alpha=0.35f;
         mactivity.getWindow().setAttributes(lp);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId())
@@ -91,7 +112,7 @@ public class PoPupwindowUtil implements View.OnClickListener {
                 popupWindow.dismiss();
                 if(NetworkUtil.isWifiNet(mactivity))
                 {
-                    downloadMusic(onlineMusic.audio,onlineMusic.name);
+                    downloadMusic(onlineMusic.getAudio(),onlineMusic.getName());
                     Toast.makeText(mactivity.getApplicationContext(),"开始下载",Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -102,7 +123,7 @@ public class PoPupwindowUtil implements View.OnClickListener {
                     dialog.setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            downloadMusic(onlineMusic.audio,onlineMusic.name);
+                            downloadMusic(onlineMusic.getAudio(),onlineMusic.getName());
                             Toast.makeText(mactivity.getApplicationContext(),"开始下载",Toast.LENGTH_SHORT).show();
                         }
                     });

@@ -20,9 +20,10 @@
                 android:paddingTop="15dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/SurgeMusic_text"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp" />
         </LinearLayout>
         <LinearLayout
             android:background="@drawable/click_background"
@@ -38,7 +39,7 @@
                 android:paddingTop="15dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/NewMusic_text"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -56,7 +57,7 @@
                 android:paddingTop="15dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/OriginalMusic_text"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -74,7 +75,7 @@
                 android:paddingTop="15dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/HotMusic_text"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -92,7 +93,7 @@
                 android:paddingTop="15dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/AcgMusic_text"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -110,7 +111,7 @@
                 android:paddingTop="15dp"
                 android:paddingLeft="15dp"
                 android:id="@+id/BillboardMusic_text"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

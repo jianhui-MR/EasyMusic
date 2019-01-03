@@ -92,12 +92,12 @@ public class OnlineMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ViewHolder)
         {
-            OnlineMusic Music=OnlineMusicList.get(position);
-            ViewHolder viewHolderholder=(ViewHolder)holder;
-            viewHolderholder.name.setText(Music.name);
-            viewHolderholder.singer.setText(Music.artistsList.get(0).singer);
-            viewHolderholder.itemView.setTag(position);
-            viewHolderholder.imageView.setTag(position);
+            OnlineMusic music=OnlineMusicList.get(position);
+            ViewHolder viewHolder=(ViewHolder)holder;
+            viewHolder.name.setText(music.getName());
+            viewHolder.singer.setText(music.getSinger());
+            viewHolder.itemView.setTag(position);
+            viewHolder.imageView.setTag(position);
         }
         else
         {

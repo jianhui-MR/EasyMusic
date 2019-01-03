@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_margin="14dp"
             android:id="@+id/song_name2"
             android:textColor="@color/TextColor"

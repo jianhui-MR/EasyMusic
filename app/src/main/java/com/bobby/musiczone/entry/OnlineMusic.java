@@ -1,12 +1,18 @@
 package com.bobby.musiczone.entry;
 
 
-import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.List;
 
-public class OnlineMusic implements Serializable {
+public class OnlineMusic {
+
+    private int id;
+    private String name;
+    private String album;
+    private String singer;
+    private String audio;
+    private String picUrl;
+    private String lrcUrl;
+
     public int getId() {
         return id;
     }
@@ -23,32 +29,44 @@ public class OnlineMusic implements Serializable {
         this.name = name;
     }
 
-    public OnlineMusic.album getAlbum() {
+    public String getAlbum() {
         return album;
     }
 
-    public void setAlbum(OnlineMusic.album album) {
+    public void setAlbum(String album) {
         this.album = album;
     }
 
-    @SerializedName("id")
-    public int id;
-    @SerializedName("name")
-    public String name;
-    @SerializedName("album")
-    public album album;
-    @SerializedName("artists")
-    public List<artists> artistsList;
-    public class artists{
-        @SerializedName("name")
-        public String singer;
+    public String getSinger() {
+        return singer;
     }
-    public static class album{
-        @SerializedName("name")
-        public String albumname;
+
+    public void setSinger(String singer) {
+        this.singer = singer;
     }
-    public String audio;
-    public String picUrl;
-    public String lrcUrl;
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+    }
+
+    public String getLrcUrl() {
+        return lrcUrl;
+    }
+
+    public void setLrcUrl(String lrcUrl) {
+        this.lrcUrl = lrcUrl;
+    }
 
 }

@@ -80,8 +80,8 @@ public class RankMusicAdapter extends RecyclerView.Adapter<RankMusicAdapter.View
     @Override
     public void onBindViewHolder(RankMusicAdapter.ViewHolder holder, int position) {
         holder.rank.setText(String.valueOf(position+1));
-        holder.RankMusicName.setText(mrankMusicList.get(position).name);
-        holder.RankMusicSinger.setText(mrankMusicList.get(position).artistsList.get(0).singer);
+        holder.RankMusicName.setText(mrankMusicList.get(position).getName());
+        holder.RankMusicSinger.setText(mrankMusicList.get(position).getSinger());
         holder.imageView.setTag(position);
         holder.itemView.setTag(position);
     }

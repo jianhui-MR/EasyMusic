@@ -138,7 +138,8 @@ public class PlayerService extends Service {
     private void initPlayer(){
         playerEngine=new PlayerEngine();
         try {
-            playerEngine.setDataSource(localMusicList.get(position).getSrcPath());
+            if (localMusicList.size()>0)
+                playerEngine.setDataSource(localMusicList.get(position).getSrcPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -313,7 +314,7 @@ public class PlayerService extends Service {
     public void playOnlineMusic(){
         try {
                 playerEngine.reset();
-                playerEngine.setDataSource(onlineMusicList.get(position).audio);
+                playerEngine.setDataSource(onlineMusicList.get(position).getAudio());
         } catch (IOException e) {
             e.printStackTrace();
         }

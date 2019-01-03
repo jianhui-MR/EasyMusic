@@ -95,28 +95,26 @@ public class MediaSessionManager {
             mMediaSession.setMetadata(null);
             return;
         }
-        //回收bitmap,防止OOM
-        if (AlbumBitmap != null)
-            AlbumBitmap.recycle();
-        AlbumBitmap = null;
         try {
-            URL picUrl=new URL(music.picUrl);
-            Log.e(TAG, "updateONLINEMetaData: "+music.picUrl );
+            URL picUrl=new URL(music.getPicUrl());
+//            Log.e(TAG, "updateONLINEMetaData: "+music.picUrl );
             HttpURLConnection connection;
             connection=(HttpURLConnection)picUrl.openConnection();
-//            connection.setDoInput(true);
             InputStream is = connection.getInputStream();
+            //回收bitmap,防止OOM
+            AlbumBitmap.recycle();
             AlbumBitmap=BitmapFactory.decodeStream(is);
         } catch (Exception e) {
             e.printStackTrace();
         }
         MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE,music.name)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.artistsList.get(0).singer)
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.album.albumname)
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE,music.getName())
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getSinger())
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.getAlbum())
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,AlbumBitmap);
 
         mMediaSession.setMetadata(metaData.build());
+        updatePlaybackState();
     }
 
     /**
