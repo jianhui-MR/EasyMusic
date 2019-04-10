@@ -33,37 +33,45 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
+        android:layout_marginBottom="52dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="52dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <FrameLayout
+        app:srlEnableLoadMore="true">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <include
-                android:layout_marginTop="50dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/ll_loading"
-                layout="@layout/include_loading"
-                android:visibility="gone"
-                android:layout_width="match_parent" />
+            android:layout_height="wrap_content" />
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-            <include
-                android:id="@+id/ll_load_fail"
-                layout="@layout/include_load_fail"
-                android:visibility="gone" />
-        </FrameLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <FrameLayout
+        android:layout_marginTop="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/ll_loading"
+            layout="@layout/include_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/ll_load_fail"
+            layout="@layout/include_load_fail"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
     <fragment
         android:layout_gravity="end|bottom"
         android:id="@+id/rank_bottom"
-        android:name="com.bobby.musiczone.fragment.BottomContainerFragment"
+        android:name="com.rex.easymusic.fragment.BottomContainerFragment"
         android:layout_width="match_parent"
         android:layout_height="52dp" />
 </android.support.design.widget.CoordinatorLayout>

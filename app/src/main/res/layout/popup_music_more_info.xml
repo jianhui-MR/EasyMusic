@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/top_radius10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_marginLeft="10dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:text="歌曲：睡公主"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp" />
+
+    <RelativeLayout
+        android:background="@drawable/selector_click_background"
+        android:id="@+id/rl_add_to_songList"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_collect"
+            android:src="@drawable/lay_icn_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_toRightOf="@+id/img_collect"
+            android:gravity="center"
+            android:text="收藏到歌单"
+            android:id="@+id/tv_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+        <View
+            android:layout_toRightOf="@+id/img_collect"
+            android:layout_alignParentBottom="true"
+            android:background="@color/lineColor"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_musicName"
+            android:src="@drawable/lay_icn_upquality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15sp"
+            android:layout_toRightOf="@+id/img_musicName"
+            android:gravity="center"
+            android:text="1111"
+            android:id="@+id/tv_Music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+        <View
+            android:layout_toRightOf="@+id/img_musicName"
+            android:layout_alignParentBottom="true"
+            android:background="@color/lineColor"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_singer"
+            android:src="@drawable/lay_icn_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15sp"
+            android:text="歌手：邓紫棋"
+            android:gravity="center"
+            android:id="@+id/tv_singer"
+            android:layout_toRightOf="@id/img_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/img_singer"
+            android:background="@color/white_background"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_album"
+            android:src="@drawable/lay_icn_alb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15sp"
+            android:gravity="center"
+            android:id="@+id/tv_album"
+            android:layout_toRightOf="@id/img_album"
+            android:text="专辑：G.E.M"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+        <View
+            android:layout_toRightOf="@id/img_album"
+            android:layout_alignParentBottom="true"
+            android:background="@color/lineColor"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/download"
+        android:background="@drawable/selector_click_background"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/img_download"
+            android:src="@drawable/lay_icn_dld"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="下载"
+            android:layout_toRightOf="@+id/img_download"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_toRightOf="@+id/img_download"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/lineColor" />
+    </RelativeLayout>
+</LinearLayout>

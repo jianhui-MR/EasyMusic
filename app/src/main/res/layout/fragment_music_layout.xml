@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:background="@drawable/click_background"
+                android:id="@+id/localMusic"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/localMusicImg"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/local_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_localMusic"
+                    android:layout_toRightOf="@+id/localMusicImg"
+                    android:textSize="17sp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/textColor"
+                    android:text="本地音乐"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_toRightOf="@+id/localMusicImg"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/lineColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:background="@drawable/click_background"
+                android:id="@+id/recentlyPlay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/recentlyPlayImg"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/recent_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_recentlyPlay"
+                    android:layout_toRightOf="@+id/recentlyPlayImg"
+                    android:textSize="17sp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/textColor"
+                    android:text="最近播放"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_toRightOf="@+id/recentlyPlayImg"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/lineColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@drawable/click_background"
+                android:id="@+id/favouriteMusic"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <ImageView
+                    android:id="@+id/myCollectImg"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/favourite"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_FavouriteMusic"
+                    android:layout_toRightOf="@+id/myCollectImg"
+                    android:textSize="17sp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/textColor"
+                    android:text="我喜欢的音乐"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:background="@color/lineColor"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="27dp">
+                <TextView
+                    android:gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:text="创建的歌单"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:layout_marginRight="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icn_add_songlist"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -5,9 +5,19 @@
     android:background="@color/themeColor"
     android:layout_height="180dp">
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/head_pohto"
+        android:id="@+id/head_photo"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@mipmap/cat"
         android:layout_centerInParent="true"/>
+    <TextView
+        android:id="@+id/userName"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:text="UserName"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:layout_below="@+id/head_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bobby.musiczone">
+    package="com.rex.easymusic">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="org.litepal.LitePalApplication"
+        android:name=".Application.MusicApplication"
         android:allowBackup="true"
         android:icon="@mipmap/music_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/music_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".Splash_screenActivity"
+            android:name=".Activity.Splash_screenActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".Activity.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="Main" />
             </intent-filter>
@@ -38,7 +44,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".Activity.PlayMusicAvtivity"
+            android:name=".Activity.PlayMusicActivity"
             android:launchMode="singleInstance" />
         <activity android:name=".Activity.SearchMusicActivity">
             <intent-filter>
@@ -47,7 +53,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.BaseActivity" />
+        <activity android:name=".Activity.ServiceActivity" />
         <activity android:name=".Activity.RankActivity">
             <intent-filter>
                 <action android:name="RankMusic" />
@@ -74,7 +80,18 @@
         <activity
             android:name=".Activity.RecommendSongListActivity"
             android:label="@string/title_activity_recommend_song_list"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".Activity.RecommendNewSongActivity" />
+        <activity android:name=".Activity.Login.LoginActivity" />
+        <activity android:name=".Activity.Login.RegisterActivity" />
+        <activity android:name=".Activity.Login.RetrievePasswordActivity" />
+        <activity android:name=".Activity.Login.verificationCodeActivity" />
+        <activity android:name=".Activity.Login.ReSetPasswordActivity" />
+        <activity android:name=".Activity.UserInfoActivity" />
+        <activity android:name=".Activity.LocalMusicActivity" />
+        <activity android:name=".Activity.RecentPlayActivity" />
+        <activity android:name=".Activity.FavouriteMusicActivity" />
+        <activity android:name=".Activity.SongListActivity"></activity>
     </application>
 
 </manifest>

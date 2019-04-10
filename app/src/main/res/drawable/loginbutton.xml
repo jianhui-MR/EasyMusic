@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!--corners 定义圆角-->
+    <corners android:radius="30dip"/>
+    <!--solid 定义填充颜色-->
+    <solid android:color="@color/titleColor"/>
+
+</shape>

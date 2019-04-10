@@ -4,9 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
-    <color name="TextColor">#000</color>
+    <color name="textColor">#000</color>
     <color name="white_background">#f5f5f5</color>
     <color name="LrcNormalColor">#cdcdcd</color>
     <color name="themeColor">#ffce3d3a</color>
     <color name="TransparentColor">#00000000</color>
+    <color name="frame_gray1">#64E9E9E9</color>
+    <color name="titleColor">#ffce3d3a</color>
+    <color name="textView_color">#a8a8a8</color>
+    <color name="editText_color">#020202</color>
 </resources>

@@ -5,11 +5,15 @@
         <item
             android:id="@+id/nav_search_localMusic"
             android:icon="@drawable/search_localmusic"
-            android:title="扫面本地音乐" />
+            android:title="@string/scanLocalMusic" />
         <item
             android:icon="@drawable/timer"
             android:id="@+id/nav_search_setTimerTask"
             android:title="@string/setTimerTask"/>
+        <item
+            android:icon="@drawable/exchang_user"
+            android:id="@+id/exchange_user"
+            android:title="@string/exchange_user"/>
     </group>
 
 </menu>

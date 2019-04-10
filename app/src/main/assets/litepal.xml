@@ -3,6 +3,6 @@
     <dbname value="Songs"/>
     <version value="1"/>
     <list>
-        <mapping class="com.bobby.musiczone.entry.LocalMusic"/>
+        <mapping class="com.rex.easymusic.Bean.LocalMusic"/>
     </list>
 </litepal>

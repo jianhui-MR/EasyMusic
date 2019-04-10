@@ -14,9 +14,16 @@
         <item name="android:windowExitAnimation">@anim/popup_out</item>
         <item name="android:windowEnterAnimation">@anim/popup_in</item>
     </style>
+
+    <style name="showPopupScale" parent="android:Animation">
+        <!--点开-->
+        <item name="android:windowEnterAnimation">@anim/popup_center_show</item>
+        <!--关闭-->
+        <item name="android:windowExitAnimation">@anim/popup_center_dismiss</item>
+    </style>
+
     <!--闪屏-->
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_layout</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
@@ -32,4 +39,17 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <declare-styleable name="vericationCodeInput">
+
+        <attr name="box" format="integer" />
+        <attr name="child_h_padding" format="dimension"/>
+        <attr name="child_v_padding" format="dimension"/>
+        <attr name="child_width" format="dimension"/>
+        <attr name="child_height" format="dimension"/>
+        <attr name="padding" format="dimension"/>
+        <attr name="box_bg_focus" format="reference"/>
+        <attr name="box_bg_normal" format="reference"/>
+        <attr name="inputType" format="string"/>
+    </declare-styleable>
 </resources>
