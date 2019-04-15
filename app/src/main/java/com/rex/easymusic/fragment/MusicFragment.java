@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,8 @@ import com.rex.easymusic.Activity.SongListActivity;
 import com.rex.easymusic.Bean.SongList;
 import com.rex.easymusic.Interface.OnClickMoreListener;
 import com.rex.easymusic.Interface.OnItemClickListener;
+import com.rex.easymusic.EventBus.MessageEvent;
+import com.rex.easymusic.Popup.CreateSongListPopup;
 import com.rex.easymusic.Popup.SongListMoreInfoPopup;
 import com.rex.easymusic.R;
 import com.rex.easymusic.adapter.SongListAdapter;
@@ -31,6 +34,9 @@ import com.rex.easymusic.util.HttpUtil;
 import com.rex.easymusic.util.ipAddressUtil;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,24 +80,41 @@ public class MusicFragment extends Fragment {
     private SongListMoreInfoPopup songListMoreInfoPopup;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_music_layout,container,false);
         unbinder=ButterKnife.bind(this,view);
+        initHandler();
+        initRecyclerView();
+        loadSongList();
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        initHandler();
-        initRecyclerView();
-        loadSongList();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void reFreshSongLists(MessageEvent messageEvent){
+        if (messageEvent.getMessage()==2){
+            adapter.notifyDataSetChanged();
+        }else if (messageEvent.getMessage()==3){
+            songLists.clear();
+            loadSongList();
+        }
     }
 
 
@@ -183,5 +206,11 @@ public class MusicFragment extends Fragment {
     public void onClickFavouriteMusic(){
         intent=new Intent(getActivity(),FavouriteMusicActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick (R.id.img_createSongList)
+    public void createSongList(){
+        CreateSongListPopup popup=new CreateSongListPopup(getActivity(),songLists);
+        popup.showPopup();
     }
 }

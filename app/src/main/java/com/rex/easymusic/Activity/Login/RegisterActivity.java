@@ -262,6 +262,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     tips_a.setText("你的邮箱号:"+accountEmail.getText());
                     fillInUserInformation.setVisibility(View.GONE);
                     emailVerify.setVisibility(View.VISIBLE);
+                    verificationCodeInput.requestFocus();
                     getSupportActionBar().setTitle("进行邮箱验证");
                 }
                 break;
@@ -272,7 +273,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onComplete(String code) {
         if (verificationCode.equals(code)){
             registerUser();
-            verificationCodeInput.setEnabled(false);
         }else {
             ToastUtils.show("验证码错误");
             verificationCodeInput.cleanText();

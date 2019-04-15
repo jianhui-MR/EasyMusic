@@ -17,12 +17,14 @@ import android.widget.TextView;
 import com.rex.easymusic.Activity.Login.LoginActivity;
 import com.rex.easymusic.Bean.OnlineMusic;
 import com.rex.easymusic.Bean.SongList;
+import com.rex.easymusic.EventBus.MessageEvent;
 import com.rex.easymusic.R;
 import com.rex.easymusic.util.DialogUtil;
 import com.rex.easymusic.util.HttpUtil;
 import com.rex.easymusic.util.ToastUtils;
 import com.rex.easymusic.util.ipAddressUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,12 +48,19 @@ public class CreateSongListPopup implements View.OnClickListener, Callback {
     private FormBody body;
     private DialogUtil dialogUtil=new DialogUtil();
     private Handler handler;
-    private OnlineMusic onlineMusic;
+    private OnlineMusic onlineMusic=null;
 
     public CreateSongListPopup(Activity activity, List<SongList> songLists, OnlineMusic onlineMusic) {
         this.songLists=songLists;
         this.activity = activity;
         this.onlineMusic=onlineMusic;
+        initHandler();
+        intiPopup();
+    }
+
+    public CreateSongListPopup(Activity activity, List<SongList> songLists) {
+        this.activity = activity;
+        this.songLists = songLists;
         initHandler();
         intiPopup();
     }
@@ -68,13 +77,21 @@ public class CreateSongListPopup implements View.OnClickListener, Callback {
                         break;
                     case 1:
                         int typeId=(Integer) msg.obj;
-                        addToSonglist(typeId);
+                        if (onlineMusic!=null)
+                            addToSonglist(typeId);
+                        else {
+                            EventBus.getDefault().post(new MessageEvent(3));
+                            dialogUtil.closeProgressDialog();
+                            ToastUtils.show("创建成功");
+                        }
+
                         break;
                     case 2:
                         dialogUtil.closeProgressDialog();
                         ToastUtils.show("添加失败");
                         break;
                     case 3:
+                        EventBus.getDefault().post(new MessageEvent(3));
                         dialogUtil.closeProgressDialog();
                         ToastUtils.show("添加成功");
 

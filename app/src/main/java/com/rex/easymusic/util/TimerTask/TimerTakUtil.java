@@ -1,6 +1,7 @@
 package com.rex.easymusic.util.TimerTask;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -29,15 +30,18 @@ public class TimerTakUtil {
     private PlayerService service;
     public static Timer mTimer;
     private MyTimerTask myTimerTask;
-    public TimerTakUtil(PlayerService service)
+    private Activity activity;
+    public static NotificationManager notificationManager;
+    public TimerTakUtil(PlayerService service, Activity activity)
     {
         this.service=service;
+        this.activity=activity;
         mTimer=new Timer();
     }
     @SuppressLint("HandlerLeak")
     public void  setTimerTask()
     {
-        new TimePickerDialog(MusicApplication.getAppContext(), AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+        new TimePickerDialog(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 int time=(hourOfDay*60+minute)*60*1000;
@@ -55,15 +59,15 @@ public class TimerTakUtil {
                 hour=hour+c.get(Calendar.HOUR_OF_DAY)+hourOfDay;
                 Intent clickIntent = new Intent(MusicApplication.getAppContext(), NotificationRecevier.class);
                 PendingIntent Pi=PendingIntent.getBroadcast(MusicApplication.getAppContext(),0,clickIntent,0);
-                NotificationManager notificationManager=(NotificationManager)MusicApplication.getAppContext().
+                notificationManager=(NotificationManager)MusicApplication.getAppContext().
                         getSystemService(Context.NOTIFICATION_SERVICE);
                 Notification notification=new NotificationCompat.Builder(MusicApplication.getAppContext())
                         .setSmallIcon(R.drawable.timer)
-                        .setContentTitle("将在"+hour
-                        +":"+min+"关闭音乐")
+                        .setContentTitle(String.format("将在%s:%s退出音乐",hour,min))
                         .setContentIntent(Pi)
                         .setAutoCancel(true)
                         .setContentText("点击可取消定时关闭").build();
+                notification.flags= Notification.FLAG_NO_CLEAR;
                 notification.defaults=Notification.DEFAULT_VIBRATE;
                 notificationManager.notify(1,notification);
             }

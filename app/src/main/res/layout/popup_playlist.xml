@@ -10,6 +10,7 @@
             <TextView
                 android:gravity="center"
                 android:layout_marginLeft="10dp"
+                android:id="@+id/play_mode"
                 android:text="列表循环"
                 android:textColor="@color/textColor"
                 android:textSize="17sp"

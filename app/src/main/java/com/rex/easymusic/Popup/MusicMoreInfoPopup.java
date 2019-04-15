@@ -22,6 +22,7 @@ import com.rex.easymusic.Bean.OnlineMusic;
 import com.rex.easymusic.fragment.MusicFragment;
 import com.rex.easymusic.util.DialogUtil;
 import com.rex.easymusic.util.NetworkUtil;
+import com.rex.easymusic.util.ipAddressUtil;
 
 import java.io.File;
 

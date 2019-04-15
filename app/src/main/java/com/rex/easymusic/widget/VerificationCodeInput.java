@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -154,6 +155,7 @@ public class VerificationCodeInput extends LinearLayout implements TextWatcher, 
             editText.setBackground(boxBgNormal);
         } else if (boxBgFocus != null && focus) {
             editText.requestFocus();
+            Log.e(TAG, "setBg: "+"focus" );
             editText.setBackground(boxBgFocus);
         }
     }

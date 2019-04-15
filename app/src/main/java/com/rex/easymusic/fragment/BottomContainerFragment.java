@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.rex.easymusic.Activity.ServiceActivity;
 import com.rex.easymusic.Application.MusicApplication;
-import com.rex.easymusic.MessageEvent.MessageEvent;
+import com.rex.easymusic.EventBus.MessageEvent;
 import com.rex.easymusic.Activity.PlayMusicActivity;
 import com.rex.easymusic.R;
 import com.rex.easymusic.Interface.OnItemClickListener;
@@ -192,12 +192,14 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void initBottom(MessageEvent messageEvent) {
-        Log.e(TAG, "initBottom: 初始化bottom" );
-        service=((MusicApplication)getActivity().getApplication()).getPlayerService();
-        setPoPupWindow();
-        setWidget();
-        setRecyclerView();
-        initBottomContainer();
+        if (messageEvent.getMessage()==1){
+            Log.e(TAG, "initBottom: 初始化bottom" );
+            service=((MusicApplication)getActivity().getApplication()).getPlayerService();
+            setPoPupWindow();
+            setWidget();
+            setRecyclerView();
+            initBottomContainer();
+        }
     }
 
     /**
@@ -248,6 +250,18 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
                 getActivity().getWindow().setAttributes(lp);
             }
         });
+        TextView playMode=contentView.findViewById(R.id.play_mode);
+        switch (PlayerService.PLAY_MODE){
+            case 0:
+                playMode.setText("列表循环");
+                break;
+            case 1:
+                playMode.setText("随机播放");
+                break;
+            case 2:
+                playMode.setText("单曲循环");
+                break;
+        }
     }
 
     /**
@@ -288,8 +302,6 @@ public class BottomContainerFragment extends Fragment implements View.OnClickLis
             }
             songs_recyclerView.setAdapter(onlineMusicPlayListAdapter);
         }
-
-
 
     }
 

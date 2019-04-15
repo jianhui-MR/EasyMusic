@@ -11,6 +11,7 @@ import com.rex.easymusic.Activity.Login.LoginActivity;
 import com.rex.easymusic.Application.MusicApplication;
 import com.rex.easymusic.Bean.OnlineMusic;
 import com.rex.easymusic.Enum.LoadStateEnum;
+import com.rex.easymusic.Popup.MusicMoreInfoPopup;
 import com.rex.easymusic.R;
 import com.rex.easymusic.util.ViewHandler;
 import com.rex.easymusic.Interface.OnClickMoreListener;
@@ -92,7 +93,9 @@ public class FavouriteMusicActivity extends ToolbarActivity {
         adapter.setClickMoreListener(new OnClickMoreListener() {
             @Override
             public void onMoreClick(int position) {
-
+                MusicMoreInfoPopup musicMoreInfoPopup =new MusicMoreInfoPopup(FavouriteMusicActivity.this);
+                musicMoreInfoPopup.setMorePopUp();
+                musicMoreInfoPopup.showMorePopUp(onlineMusicList.get(position));
             }
         });
         recyclerView.setNestedScrollingEnabled(false);

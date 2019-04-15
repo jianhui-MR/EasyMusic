@@ -14,12 +14,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.rex.easymusic.Activity.PlayMusicActivity;
 import com.rex.easymusic.BroadCast.DownloadRecevier;
 import com.rex.easymusic.Activity.Login.LoginActivity;
 import com.rex.easymusic.Manager.AudioFocusManager;
 import com.rex.easymusic.Manager.MediaSessionManager;
-import com.rex.easymusic.MessageEvent.MessageEvent;
+import com.rex.easymusic.EventBus.MessageEvent;
 import com.rex.easymusic.PlayerEngine.PlayerEngine;
 import com.rex.easymusic.Bean.OnlineMusic;
 import com.rex.easymusic.Bean.LocalMusic;
@@ -27,8 +26,6 @@ import com.rex.easymusic.util.HttpUtil;
 import com.rex.easymusic.util.ipAddressUtil;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
@@ -64,7 +61,7 @@ public class PlayerService extends Service {
     public  final int ONLINE=1;
 
     //播放模式
-    public  int PLAY_MODE;
+    public  static int PLAY_MODE;
     public  final int LOOP_MODE=0;
     public  final int RANDOM_MODE=1;
     public  final int SINGLE_MODE=2;
@@ -109,7 +106,7 @@ public class PlayerService extends Service {
         mediaSessionManager=new MediaSessionManager(this);
 
 
-        EventBus.getDefault().post(new MessageEvent("服务已开启"));
+        EventBus.getDefault().post(new MessageEvent(1));
 
 
     }

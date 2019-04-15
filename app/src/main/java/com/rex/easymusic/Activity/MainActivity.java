@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this,"扫描本地歌曲完成",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_search_setTimerTask:
-                        TimerTakUtil util=new TimerTakUtil(((MusicApplication)getApplication()).getPlayerService());
+                        TimerTakUtil util=new TimerTakUtil(((MusicApplication)getApplication()).getPlayerService(),MainActivity.this);
                         util.setTimerTask();
                         break;
                     case R.id.exchange_user:

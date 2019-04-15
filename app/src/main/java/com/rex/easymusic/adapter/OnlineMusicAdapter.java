@@ -59,7 +59,7 @@ public class OnlineMusicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (context==null){
             context=parent.getContext();
         }
-        View view= LayoutInflater.from(context).inflate(R.layout.recyclerview_item,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.rcv_onlinemusic,parent,false);
         ViewHolder holder=new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

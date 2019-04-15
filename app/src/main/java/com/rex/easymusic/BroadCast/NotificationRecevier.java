@@ -14,6 +14,7 @@ public class NotificationRecevier extends BroadcastReceiver {
         if (TimerTakUtil.mTimer!=null)
         {
             TimerTakUtil.mTimer.cancel();
+            TimerTakUtil.notificationManager.cancel(1);
             Toast.makeText(context.getApplicationContext(),"定时关闭已取消",Toast.LENGTH_SHORT).show();
         }
 

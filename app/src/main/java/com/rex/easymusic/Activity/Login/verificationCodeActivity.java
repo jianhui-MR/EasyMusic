@@ -57,6 +57,7 @@ public class verificationCodeActivity extends ToolbarActivity {
     }
 
     private void CodeInputComplete() {
+        verificationCodeInput.setFocusable(true);
         verificationCodeInput.setOnCompleteListener(content -> {
             if (content.equals(verificationCode)){
                 intent=new Intent(context,ReSetPasswordActivity.class);
@@ -65,6 +66,7 @@ public class verificationCodeActivity extends ToolbarActivity {
                 finish();
             }else {
                 ToastUtils.show("验证码错误");
+                verificationCodeInput.cleanText();
             }
         });
     }

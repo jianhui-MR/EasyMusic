@@ -1,7 +1,6 @@
 package com.rex.easymusic.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,7 +56,7 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Vi
         if (context==null) {
             context = parent.getContext();
         }
-        View view= LayoutInflater.from(context).inflate(R.layout.recyclerview_item,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.rcv_localmusic,parent,false);
         ViewHolder holder=new ViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +64,6 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Vi
                 if (mItemClickListener!=null){
                     mItemClickListener.onItemClick((Integer)v.getTag());
                 }
-            }
-        });
-        holder.img_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mclickMoreListener!=null)
-                    mclickMoreListener.onMoreClick((Integer)v.getTag());
             }
         });
         return holder;
@@ -83,7 +75,6 @@ public class LocalMusicAdapter extends RecyclerView.Adapter<LocalMusicAdapter.Vi
         holder.name.setText(song.getName());
         holder.singer.setText(song.getSinger());
         holder.itemView.setTag(position);
-        holder.img_more.setTag(position);
         if (song.albumArt!=null)
             holder.img_cover.setImageBitmap(BitmapFactory.decodeFile(song.albumArt));
     }
