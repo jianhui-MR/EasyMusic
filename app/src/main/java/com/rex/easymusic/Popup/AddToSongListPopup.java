@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 
 import com.rex.easymusic.Bean.OnlineMusic;
 import com.rex.easymusic.Bean.SongList;
+import com.rex.easymusic.EventBus.MessageEvent;
 import com.rex.easymusic.R;
 import com.rex.easymusic.adapter.AddToSongListAdapter;
 import com.rex.easymusic.Interface.OnItemClickListener;
@@ -23,6 +24,7 @@ import com.rex.easymusic.util.HttpUtil;
 import com.rex.easymusic.util.ToastUtils;
 import com.rex.easymusic.util.ipAddressUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
