@@ -4,11 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
@@ -32,6 +37,7 @@ public class TimerTakUtil {
     private MyTimerTask myTimerTask;
     private Activity activity;
     public static NotificationManager notificationManager;
+    private Bitmap bitmap;
     public TimerTakUtil(PlayerService service, Activity activity)
     {
         this.service=service;
@@ -57,19 +63,7 @@ public class TimerTakUtil {
                     min-=60;
                 }
                 hour=hour+c.get(Calendar.HOUR_OF_DAY)+hourOfDay;
-                Intent clickIntent = new Intent(MusicApplication.getAppContext(), NotificationRecevier.class);
-                PendingIntent Pi=PendingIntent.getBroadcast(MusicApplication.getAppContext(),0,clickIntent,0);
-                notificationManager=(NotificationManager)MusicApplication.getAppContext().
-                        getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification=new NotificationCompat.Builder(MusicApplication.getAppContext())
-                        .setSmallIcon(R.drawable.timer)
-                        .setContentTitle(String.format("将在%s:%s退出音乐",hour,min))
-                        .setContentIntent(Pi)
-                        .setAutoCancel(true)
-                        .setContentText("点击可取消定时关闭").build();
-                notification.flags= Notification.FLAG_NO_CLEAR;
-                notification.defaults=Notification.DEFAULT_VIBRATE;
-                notificationManager.notify(1,notification);
+                setNotification(hour,min);
             }
         },0,0,true).show();
         TimerHandler=new Handler(){
@@ -82,6 +76,27 @@ public class TimerTakUtil {
                 }
             }
         };
+    }
+
+    private void setNotification(int hour,int min){
+        Intent clickIntent = new Intent(MusicApplication.getAppContext(), NotificationRecevier.class);
+        PendingIntent Pi=PendingIntent.getBroadcast(MusicApplication.getAppContext(),0,clickIntent,0);
+        notificationManager=(NotificationManager)MusicApplication.getAppContext().
+                getSystemService(Context.NOTIFICATION_SERVICE);
+        Resources res=activity.getResources();
+        if (bitmap!=null)
+            bitmap.recycle();
+        bitmap=BitmapFactory.decodeResource(res,R.mipmap.music_icon);
+        Notification notification=new NotificationCompat.Builder(MusicApplication.getAppContext(),"channelId")
+                .setSmallIcon(R.drawable.timer)
+                .setLargeIcon(bitmap)
+                .setContentTitle(String.format("将在%s:%s退出音乐",hour,min))
+                .setContentIntent(Pi)
+                .setAutoCancel(true)
+                .setContentText("点击可取消定时关闭").build();
+        notification.flags= Notification.FLAG_NO_CLEAR;
+        notification.defaults=Notification.DEFAULT_VIBRATE;
+        notificationManager.notify(1,notification);
     }
 
     private void startTimerTask(long time)

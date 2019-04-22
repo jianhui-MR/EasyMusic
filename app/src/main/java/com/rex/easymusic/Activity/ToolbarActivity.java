@@ -1,5 +1,7 @@
 package com.rex.easymusic.Activity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +28,14 @@ public abstract class ToolbarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBar(this);
         setContentView(setLayoutId());
         unbinder=ButterKnife.bind(this);
         initToolbar();
+    }
+
+    protected void setStatusBar(Activity activity){
+        activity.getWindow().setStatusBarColor(getResources().getColor(R.color.themeColor));
     }
 
     @Override
@@ -37,7 +44,7 @@ public abstract class ToolbarActivity extends AppCompatActivity {
         unbinder.unbind();
     }
 
-    private void initToolbar(){
+    protected void initToolbar(){
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

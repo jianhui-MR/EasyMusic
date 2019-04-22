@@ -78,7 +78,7 @@ public class LrcView extends View {
             width = getMeasuredWidth();
             height = getMeasuredHeight();
         }
-        Log.e(TAG, "mlrcList.size: "+mlrcList.size() );
+//        Log.e(TAG, "mlrcList.size: "+mlrcList.size() );
         if (mlrcList==null||mlrcList.size() == 0) {
             canvas.drawText("暂无歌词", width / 2, height / 2, CurrentPaint);
             return;

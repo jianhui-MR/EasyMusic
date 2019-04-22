@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.rex.easymusic.Activity.MainActivity;
 import com.rex.easymusic.R;
+import com.rex.easymusic.util.DialogUtil;
 import com.rex.easymusic.util.HttpUtil;
 import com.rex.easymusic.util.Md5Util;
 import com.rex.easymusic.util.SharePreUtil;
@@ -57,6 +58,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Unbinder unbinder;
     private Intent intent;
     private String loginUrl = ipAddressUtil.serviceIp + "/User/loginUser";
+    private DialogUtil dialogUtil=new DialogUtil();
 
 
     /*----------------------------------------------------------------------*/
@@ -98,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         handler=new Handler(){
             @Override
             public void handleMessage(Message msg) {
+                dialogUtil.closeProgressDialog();
                 switch (msg.what){
                     //网络异常
                     case 1:
@@ -137,6 +140,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 String responseBody=response.body().string();
                 try {
                     JSONObject jsonObject=new JSONObject(responseBody);
@@ -147,7 +155,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         sharePreUtil=new SharePreUtil(LoginActivity.this,"User");
                         sharePreUtil.putString("account",account.getText().toString());
                         sharePreUtil.putString("password",md5Psw);
-
                         handler.sendEmptyMessage(2);
                     }
                     else
@@ -163,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login:
+                dialogUtil.showProgressDialog(this,"正在登陆...");
                 login();
                 break;
             case R.id.register_newUser:

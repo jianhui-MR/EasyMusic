@@ -1,6 +1,7 @@
 package com.rex.easymusic.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,6 +68,7 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBar(this);
         setContentView(R.layout.activity_search_music);
         unbinder=ButterKnife.bind(this);
         service=((MusicApplication)getApplication()).getPlayerService();
@@ -86,6 +88,9 @@ public class SearchMusicActivity extends AppCompatActivity implements SearchView
         unbinder.unbind();
     }
 
+    protected void setStatusBar(Activity activity){
+        activity.getWindow().setStatusBarColor(getResources().getColor(R.color.themeColor));
+    }
 
     /**
      * 初始化页面视图

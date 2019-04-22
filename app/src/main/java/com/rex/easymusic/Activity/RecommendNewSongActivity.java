@@ -1,6 +1,7 @@
 package com.rex.easymusic.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
@@ -61,6 +62,11 @@ public class RecommendNewSongActivity extends ToolbarActivity {
     @Override
     public int setLayoutId() {
         return R.layout.activity_recommend_new_song;
+    }
+
+    @Override
+    protected void setStatusBar(Activity activity) {
+
     }
 
     @Override

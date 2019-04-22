@@ -1,10 +1,13 @@
 package com.rex.easymusic.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.opengl.Visibility;
 import android.os.Handler;
@@ -18,6 +21,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -125,6 +130,16 @@ public class PlayMusicActivity extends ToolbarActivity implements View.OnClickLi
     @Override
     public int setLayoutId() {
         return R.layout.activity_playmusic;
+    }
+
+    @Override
+    protected void setStatusBar(Activity activity) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+    }
+
+    @Override
+    protected void initToolbar() {
+        super.initToolbar();
     }
 
     @Override
@@ -247,6 +262,13 @@ public class PlayMusicActivity extends ToolbarActivity implements View.OnClickLi
                     break;
             }
         }
+    }
+
+    private int getStatusHeight(){
+        Resources resources = getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen","android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
     }
 
     /**

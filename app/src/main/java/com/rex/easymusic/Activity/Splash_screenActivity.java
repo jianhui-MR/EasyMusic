@@ -56,14 +56,14 @@ public class Splash_screenActivity extends ServiceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        requestRuntimePermissions();
         animationView=findViewById(R.id.splash_view);
-        animationView.playAnimation();
+        if (!requestRuntimePermissions())
+            animationView.playAnimation();
         initHandler();
         login();
     }
 
-    private void requestRuntimePermissions(){
+    private boolean requestRuntimePermissions(){
         // 当手机系统大于 23 时，才有必要去判断权限是否获取
         List<String> permissionList=new ArrayList<>();
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
@@ -75,8 +75,11 @@ public class Splash_screenActivity extends ServiceActivity {
             if (!permissionList.isEmpty()){
                 ActivityCompat.requestPermissions(this,
                         permissionList.toArray(new String[permissionList.size()]),1);
+                return true;
             }
+            return false;
         }
+        return false;
     }
 
     @Override
@@ -96,6 +99,7 @@ public class Splash_screenActivity extends ServiceActivity {
                         //权限请求没通过
                     }
                 }
+                animationView.playAnimation();
             }
         }
     }

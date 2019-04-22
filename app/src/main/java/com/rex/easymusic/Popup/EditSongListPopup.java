@@ -2,6 +2,7 @@ package com.rex.easymusic.Popup;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -32,6 +34,8 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
 
+import static org.litepal.LitePalApplication.getContext;
+
 
 public class EditSongListPopup implements View.OnClickListener {
     private SongList songList;
@@ -45,6 +49,7 @@ public class EditSongListPopup implements View.OnClickListener {
     private DialogUtil dialogUtil=new DialogUtil();
     private String updateSongListUrl=ipAddressUtil.serviceIp+"/type/updateType";
     private FormBody formBody;
+    private InputMethodManager manager;
 
     public EditSongListPopup(SongList songList,Activity activity) {
         this.songList = songList;
@@ -102,6 +107,9 @@ public class EditSongListPopup implements View.OnClickListener {
         tv_title.setText("编辑歌单信息");
         et_songlistName.setText(songList.getName());
         et_songlistName.setSelection(0,songList.getName().length());
+        et_songlistName.setFocusable(true);
+        et_songlistName.setFocusableInTouchMode(true);
+        et_songlistName.requestFocus();
     }
 
     public void showPopup(){
@@ -110,6 +118,8 @@ public class EditSongListPopup implements View.OnClickListener {
         WindowManager.LayoutParams lp=activity.getWindow().getAttributes();
         lp.alpha=0.35f;
         activity.getWindow().setAttributes(lp);
+        manager = ((InputMethodManager)et_songlistName.getContext().getSystemService(Context.INPUT_METHOD_SERVICE));
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     private void updateSongList(String name){
@@ -145,6 +155,8 @@ public class EditSongListPopup implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        manager.hideSoftInputFromWindow(et_songlistName.getWindowToken(),0);
         switch (v.getId()){
             case R.id.tv_cancel:
                 popupWindow.dismiss();

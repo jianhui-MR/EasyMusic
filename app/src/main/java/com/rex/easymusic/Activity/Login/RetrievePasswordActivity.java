@@ -67,7 +67,8 @@ public class RetrievePasswordActivity extends ToolbarActivity {
         initToolbar();
     }
 
-    private void initToolbar() {
+    @Override
+    protected void initToolbar() {
         toolbar.setTitle("找回密码");
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){

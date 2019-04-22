@@ -10,6 +10,8 @@
     <!-- 相机权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+
     <application
         android:name=".Application.MusicApplication"
         android:allowBackup="true"
@@ -31,6 +33,7 @@
         </activity>
         <activity
             android:name=".Activity.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -46,7 +49,9 @@
         <activity
             android:name=".Activity.PlayMusicActivity"
             android:launchMode="singleInstance" />
-        <activity android:name=".Activity.SearchMusicActivity">
+        <activity
+            android:name=".Activity.SearchMusicActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize|adjustPan">
             <intent-filter>
                 <action android:name="SearchMusic" />
 

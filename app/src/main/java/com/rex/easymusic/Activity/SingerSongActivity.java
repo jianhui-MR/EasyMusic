@@ -1,6 +1,7 @@
 package com.rex.easymusic.Activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -75,6 +76,10 @@ public class SingerSongActivity extends ToolbarActivity implements Runnable {
     @Override
     public int setLayoutId() {
         return R.layout.activity_singer;
+    }
+
+    @Override
+    protected void setStatusBar(Activity activity) {
     }
 
     @Override

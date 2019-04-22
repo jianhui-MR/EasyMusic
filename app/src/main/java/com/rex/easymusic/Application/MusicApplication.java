@@ -40,4 +40,8 @@ public class MusicApplication extends LitePalApplication {
         this.playerService = playerService;
     }
 
+    private void exitApplication(){
+        System.exit(0);
+    }
+
 }

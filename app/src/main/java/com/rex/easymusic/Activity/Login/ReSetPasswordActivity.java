@@ -58,12 +58,12 @@ public class ReSetPasswordActivity extends ToolbarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolbar();
         initHandler();
         getBundle();
     }
 
-    private void initToolbar() {
+    @Override
+    protected void initToolbar() {
         toolbar.setTitle("重新设置密码");
         setSupportActionBar(toolbar);
         if (getSupportActionBar()!=null){
