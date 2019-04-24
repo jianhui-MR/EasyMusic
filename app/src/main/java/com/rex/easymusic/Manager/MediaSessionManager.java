@@ -3,14 +3,19 @@ package com.rex.easymusic.Manager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.RemoteException;
 import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import com.rex.easymusic.Bean.OnlineMusic;
 import com.rex.easymusic.Bean.LocalMusic;
 import com.rex.easymusic.service.PlayerService;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -32,11 +37,18 @@ public class MediaSessionManager {
 
     private PlayerService mPlayService;
     private MediaSessionCompat mMediaSession;
-    private Bitmap AlbumBitmap;
+    private MediaControllerCompat mediaController;
+    private Bitmap albumBitmap;
+    private Handler handler=new Handler();
 
     public MediaSessionManager(PlayerService playService) {
         mPlayService = playService;
         setupMediaSession();
+        try {
+            mediaController=new MediaControllerCompat(playService,mMediaSession.getSessionToken());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -70,22 +82,23 @@ public class MediaSessionManager {
             mMediaSession.setMetadata(null);
             return;
         }
-        if (AlbumBitmap != null)
-            AlbumBitmap.recycle();
+        if (albumBitmap != null)
+            albumBitmap.recycle();
         //判断歌曲封面是否为空值
         if (song.getAlbumArt()==null) {
             //回收bitmap,防止OOM
-            AlbumBitmap = null;
+            albumBitmap = null;
         }
         else
-            AlbumBitmap=BitmapFactory.decodeFile(song.getAlbumArt());
+            albumBitmap=BitmapFactory.decodeFile(song.getAlbumArt());
 
         MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE,song.getName())
                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, song.getSinger())
                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, song.getAlbumName())
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,AlbumBitmap);
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,albumBitmap);
         mMediaSession.setMetadata(metaData.build());
+        updatePlaybackState();
     }
 
     public void updateONLINEMetaData(OnlineMusic music)
@@ -95,26 +108,37 @@ public class MediaSessionManager {
             mMediaSession.setMetadata(null);
             return;
         }
-        try {
-            URL picUrl=new URL(music.getPicUrl());
-//            Log.e(TAG, "updateONLINEMetaData: "+music.picUrl );
-            HttpURLConnection connection;
-            connection=(HttpURLConnection)picUrl.openConnection();
-            InputStream is = connection.getInputStream();
-            //回收bitmap,防止OOM
-            AlbumBitmap.recycle();
-            AlbumBitmap=BitmapFactory.decodeStream(is);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE,music.getName())
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getSinger())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.getAlbum())
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,AlbumBitmap);
+        new Thread(){
+            @Override
+            public void run() {
+                Log.e(TAG, "updateONLINEMetaData: "+music.getPicUrl() );
+                HttpURLConnection connection;
+                try {
+                    URL picUrl=new URL(music.getPicUrl());
+                    connection=(HttpURLConnection)picUrl.openConnection();
+                    InputStream is = connection.getInputStream();
+                    //回收bitmap,防止OOM
+                    if (albumBitmap!=null)
+                        albumBitmap.recycle();
+                    albumBitmap=BitmapFactory.decodeStream(is);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            MediaMetadataCompat.Builder metaData = new MediaMetadataCompat.Builder()
+                                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE,music.getName())
+                                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, music.getSinger())
+                                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, music.getAlbum())
+                                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,albumBitmap);
 
-        mMediaSession.setMetadata(metaData.build());
-        updatePlaybackState();
+                            mMediaSession.setMetadata(metaData.build());
+                            updatePlaybackState();
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     /**

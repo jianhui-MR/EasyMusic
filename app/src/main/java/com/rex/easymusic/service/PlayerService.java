@@ -44,8 +44,8 @@ public class PlayerService extends Service {
     public final String PLAY_LOCALMUSIC_ACTION="PlayLocalMusic";
     public final String PLAY_ONLINEMUSIC_ACTION="PlayOnlineMusic";
     public final String PAUSEORPLAY_ACTION="PlayOrPauseMusic";
-    public final String PREVIOUS_ACTION="PreviousMusic";
-    public final String NEXT_ACTION="NextMusic";
+    public final static String PREVIOUS_ACTION="PreviousMusic";
+    public final static String NEXT_ACTION="NextMusic";
 
     public final static String plyingAction="playing";
     public final static String pauseAction="pause";
@@ -88,7 +88,6 @@ public class PlayerService extends Service {
         super.onCreate();
         service=this;
         RegisterBroadcast();
-        this.startForeground(1,new Notification());
 
         //从preferences数据库中读取退出音乐前本地播放音乐的位置，播放模式
         preferences=getSharedPreferences("Position",MODE_PRIVATE);
@@ -119,7 +118,6 @@ public class PlayerService extends Service {
     public void onDestroy() {
         super.onDestroy();
         mediaSessionManager.release();
-        stopForeground(true);
         unregisterReceiver(playerRecevier);
         unregisterReceiver(downloadRecevier);
     }
