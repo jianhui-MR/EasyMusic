@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +51,7 @@ public class LrcFragment extends Fragment implements Runnable {
 
 
     private int currentPosition = 0;
-    private  List<Lrc> mlrcList=null;
+    private  List<Lrc> mLrcList=new ArrayList<>();
     private Handler handler;
     private playerRecevier playerRecevier;
     private Unbinder unbinder;
@@ -76,6 +77,11 @@ public class LrcFragment extends Fragment implements Runnable {
         setScrollViewTouch();
         setLrc();
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -105,7 +111,7 @@ public class LrcFragment extends Fragment implements Runnable {
                         setCurrentPosition();
                         break;
                     case 2:
-                        lrcView.setLrcList(mlrcList);
+                        lrcView.setLrcList(mLrcList);
                         break;
                 }
             }
@@ -181,9 +187,9 @@ public class LrcFragment extends Fragment implements Runnable {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         String LrcContent=jsonObject.getJSONObject("lrc").getString("lyric");
-                        mlrcList= LrcUtil.ParseLrc(LrcContent);
-                        if (mlrcList.size()==0)
-                            mlrcList=null;
+                        mLrcList= LrcUtil.ParseLrc(LrcContent);
+                        if (mLrcList.size()==0)
+                            mLrcList.clear();
                         handler.sendEmptyMessage(2);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -194,7 +200,7 @@ public class LrcFragment extends Fragment implements Runnable {
             handler.post(this);
         }
         else{
-            mlrcList=null;
+            mLrcList.clear();
             handler.sendEmptyMessage(2);
             handler.removeCallbacks(this);
         }
@@ -206,20 +212,20 @@ public class LrcFragment extends Fragment implements Runnable {
      */
     public void setCurrentPosition()
     {
-        if (mlrcList==null)
+        if (mLrcList.size()==0)
             return;
         int currentMillis = service.playerEngine.getCurrentPosition();
-        if (currentMillis < mlrcList.get(0).time) {
+        if (currentMillis < mLrcList.get(0).time) {
             currentPosition = 0;
         }
-        else if (currentMillis> mlrcList.get(mlrcList.size()-1).time)
+        else if (currentMillis> mLrcList.get(mLrcList.size()-1).time)
         {
-            currentPosition=mlrcList.size()-1;
+            currentPosition=mLrcList.size()-1;
         }
         else {
-            for (int i=0;i<mlrcList.size();i++)
+            for (int i=0;i<mLrcList.size();i++)
             {
-                if (currentMillis>=mlrcList.get(i).time&&currentMillis<=mlrcList.get(i+1).time)
+                if (currentMillis>=mLrcList.get(i).time&&currentMillis<=mLrcList.get(i+1).time)
                 {
                     currentPosition=i;
                 }

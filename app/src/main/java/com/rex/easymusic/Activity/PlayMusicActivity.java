@@ -133,7 +133,7 @@ public class PlayMusicActivity extends ToolbarActivity implements View.OnClickLi
     }
 
     @Override
-    protected void setStatusBar(Activity activity) {
+    protected void setStatusBar() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 

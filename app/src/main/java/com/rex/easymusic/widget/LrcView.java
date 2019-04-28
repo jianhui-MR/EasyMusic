@@ -21,7 +21,7 @@ public class LrcView extends View {
     private int width = 0, height = 0;
     private int PaddingHeight=150;
     private final String TAG="LrcView";
-    private List<Lrc> mlrcList=new ArrayList<>();
+    private List<Lrc> mLrcList;
     private int currentPosition=-1;
     public LrcView(Context context)
     {
@@ -38,12 +38,8 @@ public class LrcView extends View {
 
     public void setLrcList(List<Lrc> lrcList)
     {
-        try {
-            mlrcList=lrcList;
-            requestLayout();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        mLrcList=lrcList;
+        requestLayout();
     }
 
     public void setCurrentPosition(int currentPosition){
@@ -67,8 +63,8 @@ public class LrcView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int widthSize=MeasureSpec.getSize(widthMeasureSpec);
-        if (mlrcList!=null)
-            setMeasuredDimension(widthSize,mlrcList.size()*PaddingHeight+8*PaddingHeight);
+        if (mLrcList!=null)
+            setMeasuredDimension(widthSize,mLrcList.size()*PaddingHeight+8*PaddingHeight);
     }
 
     @Override
@@ -78,8 +74,9 @@ public class LrcView extends View {
             width = getMeasuredWidth();
             height = getMeasuredHeight();
         }
+        Log.e(TAG, "onDraw" );
 //        Log.e(TAG, "mlrcList.size: "+mlrcList.size() );
-        if (mlrcList==null||mlrcList.size() == 0) {
+        if (mLrcList==null||mLrcList.size() == 0) {
             canvas.drawText("暂无歌词", width / 2, height / 2, CurrentPaint);
             return;
         }
@@ -88,12 +85,12 @@ public class LrcView extends View {
     private void drawLrc(Canvas canvas)
     {
         int i;
-        for(i=0;i<mlrcList.size();i++)
+        for(i=0;i<mLrcList.size();i++)
         {
             if (currentPosition!=-1&&i==currentPosition)
-                canvas.drawText(mlrcList.get(i).text,width/2,((i+5)*PaddingHeight),CurrentPaint);
+                canvas.drawText(mLrcList.get(i).text,width/2,((i+5)*PaddingHeight),CurrentPaint);
             else
-                canvas.drawText(mlrcList.get(i).text,width/2,((i+5)*PaddingHeight),NormalPaint);
+                canvas.drawText(mLrcList.get(i).text,width/2,((i+5)*PaddingHeight),NormalPaint);
         }
     }
 }

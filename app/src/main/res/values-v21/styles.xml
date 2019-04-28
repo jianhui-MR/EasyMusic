@@ -2,8 +2,14 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/TransparentColor</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="colorPrimary">@color/white_background</item>
         <item name="colorPrimaryDark">@color/themeColor</item>
         <item name="colorAccent">@color/themeColor</item>
     </style>
+    <!--<style name="TransperantToolbar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
+        <!--<item name="windowActionBarOverlay">true</item>-->
+    <!--</style>-->
 </resources>

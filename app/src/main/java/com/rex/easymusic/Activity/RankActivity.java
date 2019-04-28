@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -46,7 +48,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class RankActivity extends AppCompatActivity implements Runnable {
+public class RankActivity extends ToolbarActivity implements Runnable {
 
     @BindView(R.id.rank_toolbar)
     public Toolbar toolbar;
@@ -68,10 +70,21 @@ public class RankActivity extends AppCompatActivity implements Runnable {
     private Handler handler;
     private JSONArray jsonArray;
     private int i=0;
+
+    @Override
+    public int setLayoutId() {
+        return R.layout.activity_rankmusic;
+    }
+
+    @Override
+    protected void setStatusBar() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rankmusic);
         ButterKnife.bind(this);
         service=((MusicApplication)getApplication()).getPlayerService();
         setToolbar();

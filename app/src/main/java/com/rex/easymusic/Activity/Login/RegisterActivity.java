@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.rex.easymusic.Activity.MainActivity;
+import com.rex.easymusic.Activity.ToolbarActivity;
 import com.rex.easymusic.R;
 import com.rex.easymusic.util.HttpUtil;
 import com.rex.easymusic.util.Md5Util;
@@ -45,7 +46,7 @@ import okhttp3.Response;
  * 注册界面
  * Created by Rex on 2019/2/22
  */
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, VerificationCodeInput.Listener {
+    public class RegisterActivity extends ToolbarActivity implements View.OnClickListener, VerificationCodeInput.Listener {
 
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
@@ -82,10 +83,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Intent intent;
 
     private Unbinder unbinder;
+
+    @Override
+    public int setLayoutId() {
+        return R.layout.activity_register;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
         unbinder=ButterKnife.bind(this);
         setToolbar();
         bindView();

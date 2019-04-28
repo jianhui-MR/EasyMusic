@@ -3,7 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
-
     <ImageView
         android:layout_marginTop="70dp"
         android:id="@+id/logo"
