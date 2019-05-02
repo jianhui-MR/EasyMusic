@@ -50,7 +50,7 @@ import okhttp3.Response;
 
 public class RankActivity extends ToolbarActivity implements Runnable {
 
-    @BindView(R.id.rank_toolbar)
+    @BindView(R.id.toolbar)
     public Toolbar toolbar;
     @BindView(R.id.RankMusic_recyclerview)
     public RecyclerView rankMusic_recyclerView;
